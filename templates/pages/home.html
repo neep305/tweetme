@@ -5,9 +5,21 @@ This is amazing!!
 {% endblock head_title %}
 
 {% block content %}
-Welcome to Tweetme
+<div class="row text-center">
+    <div class="col">
+        <h1>Welcome to Tweetme</h1>
+    </div>
+</div>
 
-<div id="'tweets">
+<div class="row">
+    <div class="col-md-4 mx-auto col-10">
+        <form class="form" method="post" action="/create-tweet">
+
+        </form>
+    </div>
+</div>
+
+<div id="tweets">
     Replace me
 </div>
 <script>
@@ -19,11 +31,36 @@ Welcome to Tweetme
     const url = '/tweets'
     const responseType = 'json'
 
+    function handleDidLike(tweet_id, currentCount) {
+        console.log(tweet_id, currentCount)
+        currentCount++
+        return
+    }
+
+    function LikeBtn(tweet) {
+        return "<button class='btn btn-primary' onclick=handleDidLike(" + tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Like</button>"
+    }
+
+    function formatTweetElement(tweet) {
+        var formattedTweet = "<div class='mb-4 tweet' id='tweet-" + tweet.id + "'<p>" 
+        + tweet.content + "</p><div class='btn-group'>" + LikeBtn(tweet)
+        + "</div></div>"
+
+        return formattedTweet
+    }
     xhr.responseType = responseType
     xhr.open(method, url)
     xhr.onload = function() {
         const serverResponse = xhr.response
         var listedItems = serverResponse.response
+        var finalTweetStr = ""
+        var i;
+        for (i=0;i<listedItems.length;i++) {
+            var tweetObj = listedItems[i]
+            var currentItem = formatTweetElement(tweetObj)
+            finalTweetStr += currentItem
+        }
+        tweetsElement.innerHTML = finalTweetStr
     }
     xhr.send()
 </script>
