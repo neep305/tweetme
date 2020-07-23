@@ -25,11 +25,13 @@
 
     function handleTweetCreateFormDidSubmit(event) {
         event.preventDefault()
+        const myForm = event.target
+        const myFormData = new FormData(myForm)
         console.log(event)
     }
 
     const tweetCreateFormEl = document.getElementById("tweet-create-form")
-    tweetCreateFormEl.addEventListener("submit", handleFormDidSubmit)
+    tweetCreateFormEl.addEventListener("submit", handleTweetCreateFormDidSubmit)
 
     const tweetsElement = document.getElementById("tweets");
     tweetsElement.innerHTML = "Loading....";
